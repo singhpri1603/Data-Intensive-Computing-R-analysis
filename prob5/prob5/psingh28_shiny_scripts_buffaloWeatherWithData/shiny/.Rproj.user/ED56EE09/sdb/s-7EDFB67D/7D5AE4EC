@@ -1,0 +1,17 @@
+{
+    "contents" : "setwd('dds_ch2_rollingsales/')\nrequire(gdata)\nrequire(plyr)\ntemp = list.files(pattern=\"rollingsales_+.*csv\")\ntemp\nbk<-read.csv(temp[1], header = TRUE, skip = 4)\nfor(i in 2:5){\n  data2<-read.csv(temp[i], header = TRUE, skip = 4)\n  bk<-rbind(bk, data2)\n}\n\nrm(data2)\nnames(bk) <- tolower(names(bk))\nbk$sale.price.n <- as.numeric(gsub(\"[^[:digit:]]\",\"\", bk$sale.price))\ncount(is.na(bk$sale.price.n))\nbk$gross.sqft <- as.numeric(gsub(\"[^[:digit:]]\",\"\", bk$gross.square.feet))\nbk$land.sqft <- as.numeric(gsub(\"[^[:digit:]]\",\"\", bk$land.square.feet))\nbk$sale.date <- as.Date(bk$sale.date, \"%m/%d/%y\")\nbk$year.built <- as.numeric(as.character(bk$year.built))\n\nattach(bk)\nhist(sale.price.n)\nhist(sale.price.n[sale.price.n>0])\nhist(gross.sqft[sale.price.n==0])\ndetach(bk)\nbk.sale <- bk[bk$sale.price.n!=0,]\nplot(bk.sale$gross.sqft,bk.sale$sale.price.n)\nplot(log(bk.sale$gross.sqft),log(bk.sale$sale.price.n))\nbk.homes <- bk.sale[which(grepl(\"FAMILY\", bk.sale$building.class.category)),]\nplot(log(bk.homes$gross.sqft),log(bk.homes$sale.price.n))\n\nbk.lowsale<-bk.homes[which(bk.homes$sale.price.n<100000),][order(bk.homes[which(bk.homes$sale.price.n<100000),] $sale.price.n),]\n\nbk.homes$outliers <- (log(bk.homes$sale.price.n) <=5) + 0\nbk.homes <- bk.homes[which(bk.homes$outliers==0),]\nplot(log(bk.homes$gross.sqft),log(bk.homes$sale.price.n))\nbk.final<-bk.homes[bk.homes$year.built!=0,]\n\nggplot(bk.homes, aes(x=building.class.category, y= sale.price.n, fill=building.class.category))+geom_boxplot()\nggplot(bk.homes, aes(x=building.class.category, y= gross.sqft, fill=building.class.category))+geom_boxplot()\n\nggplot(bk.final, aes(x=year.built))+geom_histogram(binwidth = 5, aes(fill= building.class.category))\nbk.homes$log.gross.sqft<-log(bk.homes$gross.sqft)\nbk.homes$log.sale.price.n<-log(bk.homes$sale.price.n)\n\nggplot(bk.homes, aes(x=log.gross.sqft, y=log.sale.price.n))+geom_point(aes(colour= borough))\n\nggplot(bk.final, aes(x=borough))+geom_bar(aes(fill=building.class.category))\n",
+    "created" : 1457129050179.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1792819268",
+    "id" : "7D5AE4EC",
+    "lastKnownWriteTime" : 1456282230,
+    "path" : "~/final scripts/prob3/RDP3Expsingh28.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

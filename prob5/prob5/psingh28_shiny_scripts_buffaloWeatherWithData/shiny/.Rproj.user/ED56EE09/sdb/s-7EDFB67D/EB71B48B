@@ -1,0 +1,17 @@
+{
+    "contents" : "library(twitteR)\nlibrary(RCurl)\nlibrary(RJSONIO)\nlibrary(stringr)\n \n# Declare Twitter API Credentials\napi_key <- \"QqgF5CYeBK8ZvVnFlPrhNNdis\" # From dev.twitter.com\napi_secret <- \"dAQYJPfv0ctgnP3uVgm4Xa85u7mCHXn201Orxp1KPdodg6G9AD\" # From dev.twitter.com\ntoken <- \"3578768241-0glX8cga4a6W4L8FzJSSCXLz3lC5enPVCAbqdFr\" # From dev.twitter.com\ntoken_secret <- \"fzpHRgIeQDyepAAsZZJgueM1CiX4DpTl0wRSijGdjlybh\" # From dev.twitter.com\n\n# Create Twitter Connection\nsetup_twitter_oauth(api_key, api_secret, token, token_secret)\n\n#tweets <- searchTwitter(\"apartment rent #newyork OR apartment rent #NYC OR house rent #newyork OR house rent #NYC \" , lang=\"en\", n=100, since=\"2016-02-28\", until = \"2016-03-04\")\ntweets <- searchTwitter(\"apartment buy new york\" , lang=\"en\", n=1000, since=\"2016-02-23\", until = \"2016-03-04\")\n\ntweets1.df <- twListToDF(tweets)\n\nexportJsonfull <- toJSON(tweets1.df)\nwrite(exportJsonfull, file=paste(\"tweets_j_1\",\".json\",sep=\"\"))",
+    "created" : 1457107683014.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2679673746",
+    "id" : "EB71B48B",
+    "lastKnownWriteTime" : 1457128645,
+    "path" : "~/search.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

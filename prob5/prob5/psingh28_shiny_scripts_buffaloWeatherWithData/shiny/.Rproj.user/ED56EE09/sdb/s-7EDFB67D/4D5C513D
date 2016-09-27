@@ -1,0 +1,18 @@
+{
+    "contents" : "library(jsonlite)\nlibrary(rjson)\n\nfilenames <- list.files(pattern=\"tweets+.*json\") \ndf1<-fromJSON(filenames[1])\ndf2<-fromJSON(filenames[2])\ndf3<-fromJSON(filenames[3])\ndf4<-fromJSON(filenames[4])\ndf5<-fromJSON(filenames[5])\ndf6<-fromJSON(filenames[6])\n\n# for (i in 2:7){\n#   dframe<-fromJSON(filenames[i])\n#   final<-rbind(final, dframe)\n# }\n\ndf1<-df1['text']\ndf2<-df2['text']\ndf3<-df3['text']\ndf4<-df4['text']\ndf5<-df5['text']\ndf6<-df6['text']\n\nfinal<-rbind(df1,df2)\nfinal<-rbind(final,df3)\nfinal<-rbind(final,df4)\nfinal<-rbind(final,df5)\nfinal<-rbind(final,df6)\n\nsome_tweet<-as.vector(final[['text']])\n\nsome_txt =gsub(\"(RT|via)((?:\\\\b\\\\W*@\\\\w+)+)\", \"\", some_tweet)\nsome_txt = gsub(\"@\\\\w+\", \"\", some_txt)\nsome_txt = gsub(\"[[:punct:]]\", \"\", some_txt)\n# remove numbers\nsome_txt = gsub(\"[[:digit:]]\", \"\", some_txt)\n# remove html links\nsome_txt = gsub(\"http\\\\w+\", \"\", some_txt)\n# remove unnecessary spaces\nsome_txt = gsub(\"[ \\t]{2,}\", \"\", some_txt)\nsome_txt = gsub(\"^\\\\s+|\\\\s+$\", \"\", some_txt)\n\ntry.error = function(x)\n{\n  # create missing value\n  y = NA\n  # tryCatch error\n  try_error = tryCatch(tolower(x), error=function(e) e)\n  # if not an error\n  if (!inherits(try_error, \"error\"))\n    y = tolower(x)\n  # result\n  return(y)\n}\n# lower case using try.error with sapply\nsome_txt = sapply(some_txt, try.error)\n\n# remove NAs in some_txt\nsome_txt = some_txt[!is.na(some_txt)]\nnames(some_txt) = NULL\n\n# Perform Sentiment Analysis\n# classify emotion\nclass_emo = classify_emotion(some_txt, algorithm=\"bayes\", prior=1.0)\n# get emotion best fit\nemotion = class_emo[,7]\n# substitute NA's by \"unknown\"\nemotion[is.na(emotion)] = \"unknown\"\n\n# classify polarity\nclass_pol = classify_polarity(some_txt, algorithm=\"bayes\")\n# get polarity best fit\npolarity = class_pol[,4]\n# Create data frame with the results and obtain some general statistics\n# data frame with results\nsent_df = data.frame(text=some_txt, emotion=emotion,\n                     polarity=polarity, stringsAsFactors=FALSE)\n\n# sort data frame\nsent_df = within(sent_df,\n                 emotion <- factor(emotion, levels=names(sort(table(emotion), decreasing=TRUE))))\n\n\n# Let’s do some plots of the obtained results\n# plot distribution of emotions\nggplot(sent_df, aes(x=emotion)) +\n  geom_bar(aes(y=..count.., fill=emotion)) +\n  scale_fill_brewer(palette=\"Dark2\") +\n  labs(x=\"emotion categories\", y=\"number of tweets\") +\n  ggtitle(\"Sentiment Analysis of Tweets about Starbucks\\n(classification by emotion)\") +\n  theme(plot.title = element_text(size=12, face=\"bold\"))\n\n\n# plot distribution of polarity\nggplot(sent_df, aes(x=polarity)) +\n  geom_bar(aes(y=..count.., fill=polarity)) +\n  scale_fill_brewer(palette=\"RdGy\") +\n  labs(x=\"polarity categories\", y=\"number of tweets\") +\n  ggtitle(\"Sentiment Analysis of Tweets about Starbucks\\n(classification by polarity)\") +\n  theme(plot.title = element_text(size=12, face=\"bold\"))\n",
+    "created" : 1457110916273.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2341128857",
+    "id" : "4D5C513D",
+    "lastKnownWriteTime" : 1457128628,
+    "path" : "~/problem4.R",
+    "project_path" : null,
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

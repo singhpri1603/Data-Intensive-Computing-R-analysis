@@ -1,0 +1,17 @@
+{
+    "contents" : "library(streamR)\nlibrary(jsonlite)\nlibrary(rjson)\nlibrary(doBy)\n\nfilenames <- list.files(pattern=\"nba+.*json\") \n\nfinal<-data.frame(day=NA, isRetweet=NA, RetweetAve= NA )\n\nfor (i in 1:7){\n  dframe<-fromJSON(filenames[i])\n  twdf<-data.frame(dframe)\n  \n  twdf2<-twdf[twdf$isRetweet==TRUE,]\n  \n  x<-length(twdf2$isRetweet)\n  y<-sum(twdf2$retweetCount)\n  z<-y/x\n  \n  final[i,1]<-paste(\"DAY\", toString(i), sep=\" \")\n  final[i,2]<-x\n  final[i,3]<-z\n}\n\nlibrary(ggplot2)\nggplot(final, aes(x=day, y=isRetweet))+geom_point(size= 7, aes(colour = day))\nggplot(final, aes(x=day, y=RetweetAve))+geom_point(size= 7, aes(colour = day))\n\n",
+    "created" : 1457110897439.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2779268493",
+    "id" : "6F6091C8",
+    "lastKnownWriteTime" : 1456888657,
+    "path" : "~/p1.R",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_source"
+}

@@ -1,0 +1,17 @@
+{
+    "contents" : "\n# This is the user-interface definition of a Shiny web application.\n# You can find out more about building applications with Shiny here:\n#\n# http://shiny.rstudio.com\n#\n\nlibrary(shiny)\n\nshinyUI(fluidPage(\n\n  # Application title\n  titlePanel(\"Election Tweets Analysis\"),\n\n  # Sidebar with a slider input for number of bins\n#   sidebarLayout(\n#     sidebarPanel(\n# # #       \n#      ),\n# \n#     # Show a plot of the generated distribution\n#     mainPanel(\n# fluidRow(\n#      column(4,plotOutput(\"distPlot1\")\n#             ),\n#     \n#      column(4, plotOutput(\"distPlot2\")\n#     )\n#     ),\n# fluidRow(\n#   column(4,\n#       plotOutput(\"distPlot3\"))\n#   ,\n#   column(4,    plotOutput(\"distPlot4\"))\n# #       \n#     )\nplotOutput(\"distPlot\")\n\n  )\n)\n",
+    "created" : 1457211234881.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2960969945",
+    "id" : "1BF44F24",
+    "lastKnownWriteTime" : 1457235778,
+    "path" : "~/election_analysis/ui.R",
+    "project_path" : "ui.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
